@@ -3,6 +3,8 @@ package br.com.vanzele.lista_de_tarefas.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tarefa")
 @Getter
@@ -16,4 +18,5 @@ public class Tarefa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
+    private LocalDateTime dataCriacao;
 }

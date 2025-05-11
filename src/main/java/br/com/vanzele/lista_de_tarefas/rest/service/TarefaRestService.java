@@ -5,6 +5,7 @@ import br.com.vanzele.lista_de_tarefas.model.dto.response.TarefaResponse;
 import br.com.vanzele.lista_de_tarefas.service.tarefa.TarefaService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,9 @@ public class TarefaRestService {
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Busca todas as tarefas")
-    public List<TarefaResponse> buscarTodasTarefas() {
-        return tarefaService.buscarTodasTarefas();
+    public Page<TarefaResponse> buscarTodasTarefas(@RequestParam int pagina,
+                                                   @RequestParam(defaultValue = "10") int quantidadeItens) {
+        return tarefaService.buscarTodasTarefas(pagina, quantidadeItens);
     }
 
     @GetMapping("/{tarefaId}")

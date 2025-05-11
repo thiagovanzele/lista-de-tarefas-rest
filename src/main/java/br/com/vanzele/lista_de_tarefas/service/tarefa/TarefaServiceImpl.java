@@ -5,8 +5,12 @@ import br.com.vanzele.lista_de_tarefas.model.dto.response.TarefaResponse;
 import br.com.vanzele.lista_de_tarefas.model.entities.Tarefa;
 import br.com.vanzele.lista_de_tarefas.repository.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +31,17 @@ public class TarefaServiceImpl implements TarefaService {
             throw new RuntimeException("É necessário inserir a descrição da tarefa");
         }
         tarefa.setDescricao(descricao);
+        tarefa.setDataCriacao(LocalDateTime.now());
         this.tarefaRepository.save(tarefa);
 
         return TarefaResponse.fromEntity(tarefa);
     }
 
     @Override
-    public List<TarefaResponse> buscarTodasTarefas() {
-       List<Tarefa> tarefas = tarefaRepository.findAll();
-        return tarefas.stream().map(TarefaResponse::fromEntity).collect(Collectors.toList());
+    public Page<TarefaResponse> buscarTodasTarefas(int pagina, int quantidadeItens) {
+       Page<Tarefa> tarefas = tarefaRepository
+               .findAll(PageRequest.of(pagina, quantidadeItens, Sort.by("dataCriacao").ascending()));
+        return tarefas.map(TarefaResponse::fromEntity);
     }
 
     @Override

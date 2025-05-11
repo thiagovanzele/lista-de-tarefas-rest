@@ -3,6 +3,7 @@ package br.com.vanzele.lista_de_tarefas.service.tarefa;
 import br.com.vanzele.lista_de_tarefas.model.dto.request.TarefaRequest;
 import br.com.vanzele.lista_de_tarefas.model.dto.response.TarefaResponse;
 import br.com.vanzele.lista_de_tarefas.model.entities.Tarefa;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface TarefaService {
     /**
      * Busca todas as tarefas
      * */
-    List<TarefaResponse> buscarTodasTarefas();
+    Page<TarefaResponse> buscarTodasTarefas(int pagina, int quantidadeItens);
 
     /**
      * apaga uma tarefa específica pelo id
